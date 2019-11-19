@@ -1,8 +1,14 @@
 package br.ufpb.dcx.aps.escalonador;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FachadaEscalonador {
-	
+
 	private int tick;
+
+	private List<String> fila = new ArrayList<String>();
+	Processo processos = new Processo();
 
 	public FachadaEscalonador(TipoEscalonador tipoEscalonador) {
 	}
@@ -11,7 +17,17 @@ public class FachadaEscalonador {
 	}
 
 	public String getStatus() {
-		return "Escalonador RoundRobin;Processos: {};Quantum: 3;Tick: " + tick;
+		String Inicial = "Escalonador RoundRobin;Processos: {};Quantum: 3;Tick: " + tick;
+		if (fila.size() > 0) {
+			return "Escalonador RoundRobin;Processos: {Fila: [" + this.fila.get(0) + "]};Quantum: 3;Tick: " + tick;
+		}
+		
+		if (processos.size() > 0) {
+			return "Escalonador RoundRobin;Processos: {Rodando: " + this.fila.get(0) + "};Quantum: 3;Tick: " + tick;
+		}
+		return Inicial;
+		
+
 	}
 
 	public void tick() {
@@ -19,6 +35,9 @@ public class FachadaEscalonador {
 	}
 
 	public void adicionarProcesso(String nomeProcesso) {
+		RoundRobinObject roundRobinObject = new RoundRobinObject("P1");
+		processos.criarProcesso(roundRobinObject);
+		fila.add(roundRobinObject.getNome());
 	}
 
 	public void adicionarProcesso(String nomeProcesso, int prioridade) {
@@ -31,10 +50,10 @@ public class FachadaEscalonador {
 	}
 
 	public void retomarProcesso(String nomeProcesso) {
-		
+
 	}
 
 	public void adicionarProcessoTempoFixo(String string, int duracao) {
-		
+
 	}
 }
