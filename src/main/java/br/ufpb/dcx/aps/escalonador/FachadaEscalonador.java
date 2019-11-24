@@ -7,7 +7,8 @@ public class FachadaEscalonador {
 
 	private int tick;
 
-	private List<String> fila = new ArrayList<String>();
+	// private List<String> fila = new ArrayList<String>();
+	Fila fila = new Fila();
 	Processo processos = new Processo();
 
 	public FachadaEscalonador(TipoEscalonador tipoEscalonador) {
@@ -17,16 +18,19 @@ public class FachadaEscalonador {
 	}
 
 	public String getStatus() {
-		String Inicial = "Escalonador RoundRobin;Processos: {};Quantum: 3;Tick: " + tick;
-		if (fila.size() > 0) {
-			return "Escalonador RoundRobin;Processos: {Fila: [" + this.fila.get(0) + "]};Quantum: 3;Tick: " + tick;
+		String retornoPadrão = "Escalonador RoundRobin;Processos: {};Quantum: 3;Tick: " + tick;
+
+		if (this.fila.size() == 0) {
+			return retornoPadrão;
+		} else if (tick == 0) {
+			System.out.println(fila.toString());
+			return "Escalonador RoundRobin;Processos: {Fila: " + fila.toString() + "};Quantum: 3;Tick: " + tick;
 		}
-		
-		if (processos.size() > 0) {
-			return "Escalonador RoundRobin;Processos: {Rodando: " + this.fila.get(0) + "};Quantum: 3;Tick: " + tick;
+
+		else {
+			return "Escalonador RoundRobin;Processos: {Rodando: " + this.fila.getFila().get(0) + "};Quantum: 3;Tick: "
+					+ tick;
 		}
-		return Inicial;
-		
 
 	}
 
@@ -35,15 +39,16 @@ public class FachadaEscalonador {
 	}
 
 	public void adicionarProcesso(String nomeProcesso) {
-		RoundRobinObject roundRobinObject = new RoundRobinObject("P1");
-		processos.criarProcesso(roundRobinObject);
-		fila.add(roundRobinObject.getNome());
+		processos.criarProcesso(nomeProcesso);
+		fila.insererNaFila(nomeProcesso);
+		;
 	}
 
 	public void adicionarProcesso(String nomeProcesso, int prioridade) {
 	}
 
 	public void finalizarProcesso(String nomeProcesso) {
+
 	}
 
 	public void bloquearProcesso(String nomeProcesso) {

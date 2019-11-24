@@ -5,17 +5,25 @@ import java.util.List;
 
 public class Processo {
 	
-	private List<RoundRobinObject> processoLista = new ArrayList<RoundRobinObject>();
+	private List<String> processoLista = new ArrayList<String>();
 	
-	public void criarProcesso(RoundRobinObject roundRobinObject) {
-		this.getProcessoLista().add(roundRobinObject);
+	public void removerProcesso(String nome) {
+		for(String r: processoLista) {
+			if(r.equals(nome)){
+				this.processoLista.remove(r);
+			}
+		}
+	}
+	
+	public void criarProcesso(String nomeProcesso) {
+		this.getProcessoLista().add(nomeProcesso);
 	}
 
-	public List<RoundRobinObject> getProcessoLista() {
+	public List<String> getProcessoLista() {
 		return processoLista;
 	}
 
-	public void setProcessoLista(List<RoundRobinObject> processoLista) {
+	public void setProcessoLista(List<String> processoLista) {
 		this.processoLista = processoLista;
 	}
 

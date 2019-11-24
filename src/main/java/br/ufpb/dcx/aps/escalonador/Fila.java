@@ -5,26 +5,23 @@ import java.util.List;
 
 public class Fila {
 
-	private List<RoundRobinObject> fila = new ArrayList<RoundRobinObject>();
-
+	private List<String> fila = new ArrayList<String>();
 	
-	public String getNomeDoObjeto() {
-		for(RoundRobinObject r: this.fila) {
-				return r.getNome();
-		}
-		return null;
-	}
 	
-	public List<RoundRobinObject> getFila() {
+	public List<String> getFila() {
 		return fila;
 	}
 
-	public void insererNaFila(RoundRobinObject roundRobinObject) {
-		this.fila.add(roundRobinObject);
+	public void insererNaFila(String nomeProcesso) {
+		this.fila.add(nomeProcesso);
 	}
 
-	public Object remove() {
-		return this.fila.remove(0);
+	public void removerDaFila(String nome) {
+		for(String r: fila) {
+			if(r.equals(nome)){
+				this.fila.remove(r);
+			}
+		}
 	}
 
 	public boolean vazia() {
@@ -34,10 +31,11 @@ public class Fila {
 	public int size() {
 		return this.fila.size();
 	}
-	
+
 	@Override
 	public String toString() {
-		
-		return super.toString();
+		return "" + fila + "";
 	}
+	
+	
 }
