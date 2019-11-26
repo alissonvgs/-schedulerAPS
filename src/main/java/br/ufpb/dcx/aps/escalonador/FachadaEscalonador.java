@@ -14,7 +14,7 @@ public class FachadaEscalonador {
 	protected String rodando;
 	protected String processoParaSerFinalizado;
 
-	//Queue é um tipo de Lista que metodo que funcionam como uma Fila, ou seja, não precisa de uma classe Fila
+	//Queue é um tipo de Lista que tem metodos que funcionam como uma Fila, ou seja, não precisa de uma classe Fila
 	protected Queue<String> listaProcesso;
 	protected List<String> fila = new ArrayList<String>();
 	
