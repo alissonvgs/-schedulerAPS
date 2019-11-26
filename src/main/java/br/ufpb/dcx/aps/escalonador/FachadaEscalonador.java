@@ -9,14 +9,16 @@ public class FachadaEscalonador {
 	protected TipoEscalonador tipoEscalonador;
 	private int tick;
 	protected int quantum;
-	protected int duracaoFixa;
+	protected int controlador;
+
 	protected String rodando;
-	protected ArrayList<String> processoBloqueado;
+	protected String processoParaSerFinalizado;
+
+	//Queue é um tipo de Lista que metodo que funcionam como uma Fila, ou seja, não precisa de uma classe Fila
 	protected Queue<String> listaProcesso;
 	protected List<String> fila = new ArrayList<String>();
-	protected List<Integer> filaDuracao = new ArrayList<Integer>();
-	protected List<String> processoRetomado = new ArrayList<String>();
-
+	
+	
 	public FachadaEscalonador( TipoEscalonador tipoEscalonador ){
 		
 		if( tipoEscalonador == null ) throw new EscalonadorException();	
@@ -24,7 +26,7 @@ public class FachadaEscalonador {
 		this.tick = 0;
 		this.tipoEscalonador = tipoEscalonador;
 		this.listaProcesso = new LinkedList<String>();
-		this.processoBloqueado = new ArrayList<String>();
+		
 	}
 	public FachadaEscalonador( TipoEscalonador roundrobin, int quantum ) {
 		
@@ -33,7 +35,6 @@ public class FachadaEscalonador {
 		this.tick = 0;
 		this.tipoEscalonador = roundrobin;
 		this.listaProcesso = new LinkedList<String>();
-		this.processoBloqueado = new ArrayList<String>();
 	}	
 	public String getStatus() {
 
@@ -50,12 +51,6 @@ public class FachadaEscalonador {
 				resultado += "Fila: " + this.listaProcesso.toString();
 			}
 		}
-		if (this.processoBloqueado.size() > 0) {
-			
-			if (rodando != null || listaProcesso.size() > 0) resultado += ", ";
-			resultado += "Bloqueados: " + this.processoBloqueado.toString();
-		}
-	
 		resultado += "};Quantum: " + this.quantum + ";";
 		resultado += "Tick: " + this.tick;
 		return resultado;
@@ -63,16 +58,33 @@ public class FachadaEscalonador {
 	public void tick() {
 		
 		this.tick++;
-		
+		if (this.controlador > 0 && (this.controlador + this.quantum) == this.tick) {
+			this.listaProcesso.add(rodando);
+			this.rodando = this.listaProcesso.poll();
+			this.controlador = this.tick;
+		}
+		if (this.rodando == null) {
+			if (this.listaProcesso.size() != 0) {
+				this.rodando = this.listaProcesso.poll();
+				if (listaProcesso.size() > 0) this.controlador = this.tick;			
+			}
+		}	
 	}
 	public void adicionarProcesso( String nomeProcesso ) {
 			
+		if(nomeProcesso == null) throw new EscalonadorException();	
+		if (listaProcesso.contains(nomeProcesso)) throw new EscalonadorException();	
+		this.listaProcesso.add(nomeProcesso);
 	}
 	public void adicionarProcesso(String nomeProcesso, int prioridade) {
-			
+		
+		if (tipoEscalonador == TipoEscalonador.RoundRobin) throw new EscalonadorException();	
 	}
 	public void finalizarProcesso(String nomeProcesso) {
 		
+		if(!listaProcesso.contains(nomeProcesso) && rodando == null) throw new EscalonadorException();
+		
+		this.processoParaSerFinalizado = nomeProcesso;
 	}
 	public void bloquearProcesso(String nomeProcesso) {
 		
