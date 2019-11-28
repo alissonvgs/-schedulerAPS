@@ -54,7 +54,11 @@ public class FachadaEscalonador {
 		
 		this.tick++;
 		if (contador + quantum == tick) {
+			//Este método é usado para adicionar elementos no final da fila. 
+			//Mais especificamente, no último da lista vinculada, se for usado, 
+			//ou de acordo com a prioridade no caso de implementação da fila de prioridade.
 			listaProcesso.add(rodando);
+			//esse método remove e retorna o cabeçalho da fila. Retorna nulo se a fila estiver vazia.
 			rodando = listaProcesso.poll();
 			contador = tick;
 		}
