@@ -6,17 +6,17 @@ import java.util.Queue;
 
 public class FachadaEscalonador {
 	
-	protected TipoEscalonador tipoEscalonador;
+	private TipoEscalonador tipoEscalonador;
 	private int tick;
-	protected int quantum;
-	protected int controlador;
+	private int quantum;
+	private int controlador;
 
-	protected String rodando;
-	protected String processoParaSerFinalizado;
+	private String rodando;
+	private String processoParaSerFinalizado;
 
 	//Queue é um tipo de Lista que tem metodos que funcionam como uma Fila, ou seja, não precisa de uma classe Fila
-	protected Queue<String> listaProcesso;
-	protected List<String> fila = new ArrayList<String>();
+	private Queue<String> listaProcesso;
+	private List<String> fila = new ArrayList<String>();
 	
 	
 	public FachadaEscalonador( TipoEscalonador tipoEscalonador ){
