@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 .settings/
 .classpath
 .project
 target
 
+=======
+/target/
+>>>>>>> master
