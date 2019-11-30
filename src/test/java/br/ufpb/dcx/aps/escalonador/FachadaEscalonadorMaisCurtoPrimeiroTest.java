@@ -1,9 +1,10 @@
 package br.ufpb.dcx.aps.escalonador;
 
 import static br.ufpb.dcx.aps.escalonador.TestHelper.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class FachadaEscalonadorMaisCurtoPrimeiroTest {
 	
@@ -199,5 +200,6 @@ public class FachadaEscalonadorMaisCurtoPrimeiroTest {
 				"O Escalonador Mais Curto Primeiro exige que todos os processos tenham uma duração definida na adição" );
 
 	}
+
 
 }
