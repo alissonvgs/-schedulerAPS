@@ -1,7 +1,4 @@
-
 package br.ufpb.dcx.aps.escalonador;
-
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -79,8 +76,13 @@ public class FachadaEscalonador {
 			this.rodando = this.listaProcessos.poll();
 			this.controlador = this.tick;
 		}
-		
-		
+		if (processoFinalizado != null) {
+			if (this.rodando == this.processoFinalizado) {
+				this.rodando = null;
+			} else {
+				this.listaProcessos.remove(processoFinalizado);
+			}
+		}
 		if (this.rodando == null) {
 			if (this.listaProcessos.size() != 0) {
 				this.rodando = this.listaProcessos.poll();
@@ -97,16 +99,23 @@ public class FachadaEscalonador {
 				} else {
 					rodando = null;
 				}
-			} else {
-				this.listaProcessos.remove(processoBloqueado);
-				this.processosBloqueados.add(processoBloqueado);
-			}
+			} 
 			processoBloqueado = null;
 		}
-		
-		
+		if (processosRetomados.size() > 0) {
+			for (int k = 0; k < processosRetomados.size(); k++) {
+				String retomar = processosRetomados.get(k);
+				if (processosBloqueados.contains(retomar)) {
+					if (rodando == null) {
+						rodando = retomar;
+					} else {				
+						this.listaProcessos.add(retomar);
+					}
+					this.processosBloqueados.remove(retomar);
+				}			
+			}
+		}
 	}
-
 	
 	public void adicionarProcesso( String nomeProcesso ) {
 			
@@ -115,8 +124,9 @@ public class FachadaEscalonador {
 		}
 		if (listaProcessos.contains(nomeProcesso)) {
 			throw new EscalonadorException();
+		}else{
+			this.listaProcessos.add(nomeProcesso);
 		}
-		this.listaProcessos.add(nomeProcesso);
 	}
 	
 	public void adicionarProcesso(String nomeProcesso, int prioridade) {
@@ -127,8 +137,10 @@ public class FachadaEscalonador {
 		
 		if(!listaProcessos.contains(nomeProcesso) && rodando == null) {
 			throw new EscalonadorException();
+			
+		}else{
+			this.processoFinalizado = nomeProcesso;
 		}
-		this.processoFinalizado = nomeProcesso;
 	}
 	public void bloquearProcesso(String nomeProcesso) {
 		if(!listaProcessos.contains(nomeProcesso) && rodando == null) {
@@ -136,10 +148,16 @@ public class FachadaEscalonador {
 		}
 		if(rodando != nomeProcesso) {
 			throw new EscalonadorException();
+		}else {
+			this.processoBloqueado = nomeProcesso;
 		}
-		this.processoBloqueado = nomeProcesso;
+		
 	}
 	public void retomarProcesso(String nomeProcesso) {
-		
+		if(!processosBloqueados.contains(nomeProcesso)) {
+			throw new EscalonadorException();
+		}else{
+			processosRetomados.add(nomeProcesso);
+		}
 	}
 }
