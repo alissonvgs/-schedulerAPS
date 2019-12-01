@@ -112,10 +112,10 @@ public class FachadaEscalonador {
 
 		if (listaProcesso.size() == 0) {
 			System.out.println("Processo nulo");
-			// String var = resultado.replace("Rodando: " + rodando, "");
-			System.err.println("Next>" + getStatus().toString());
 		} else {
 			System.err.println("Tem Processo");
+			String var = resultado.replace("Rodando: " + rodando, "");
+			resultado = var;
 			fila.remove(nomeProcesso);
 			System.err.println("Next>" + getStatus().toString());
 		}
