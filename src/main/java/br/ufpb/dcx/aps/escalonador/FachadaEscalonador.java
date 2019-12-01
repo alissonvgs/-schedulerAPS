@@ -89,7 +89,19 @@ public class FachadaEscalonador {
 				if (listaProcessos.size() > 0) this.controlador = this.tick;			
 			}
 		}
-		
+		if (this.controlador == 0 && this.rodando != null && listaProcessos.size() > 0) this.controlador = this.tick;
+		if (processoBloqueado != null) {
+			if (this.rodando == this.processoBloqueado) {
+				this.rodando = null;
+				this.processosBloqueados.add(processoBloqueado);
+				if (listaProcessos.size() > 0) {
+					rodando = listaProcessos.poll();
+				} else {
+					rodando = null;
+				}
+			} 
+			processoBloqueado = null;
+		}
 		if (processosRetomados.size() > 0) {
 			for (int k = 0; k < processosRetomados.size(); k++) {
 				String retomar = processosRetomados.get(k);
@@ -104,7 +116,6 @@ public class FachadaEscalonador {
 			}
 		}
 	}
-	
 	
 	public void adicionarProcesso( String nomeProcesso ) {
 			
@@ -132,7 +143,14 @@ public class FachadaEscalonador {
 		}
 	}
 	public void bloquearProcesso(String nomeProcesso) {
-		
+		if(!listaProcessos.contains(nomeProcesso) && rodando == null) {
+			throw new EscalonadorException();
+		}
+		if(rodando != nomeProcesso) {
+			throw new EscalonadorException();
+		}else {
+			this.processoBloqueado = nomeProcesso;
+		}
 		
 	}
 	public void retomarProcesso(String nomeProcesso) {
