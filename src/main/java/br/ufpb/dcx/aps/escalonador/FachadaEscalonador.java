@@ -80,7 +80,7 @@ public class FachadaEscalonador {
 			this.controlador = this.tick;
 		}
 		
-		}
+		
 		if (this.rodando == null) {
 			if (this.listaProcessos.size() != 0) {
 				this.rodando = this.listaProcessos.poll();
@@ -103,7 +103,7 @@ public class FachadaEscalonador {
 			}
 			processoBloqueado = null;
 		}
-		}
+		
 		
 	}
 
